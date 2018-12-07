@@ -1,6 +1,6 @@
 # gdelt-on-spring-cloud-data-flow
 
-This repo contains code for the blog post series "GDELT on SCDF" on our developer blog [syscrest.com](http://www.syscrest.com).
+This repo contains code for the blog post series "GDELT on SCDF" on our developer blog @ [syscrest.com](http://www.syscrest.com).
 
 ### Introduction to [GDELTPROJECT.org](https://gdeltproject.org) and [Spring Cloud Data Flow](https://cloud.spring.io/spring-cloud-dataflow):
   * http://www.syscrest.com/2018/10/blog-post-series-processing-gdeltproject-dot-org-data-with-spring-cloud-data-flow-on-kubernetes/
@@ -10,7 +10,7 @@ This repo contains code for the blog post series "GDELT on SCDF" on our develope
 
 
 ### Implementing a custom Source for Spring Cloud Data Flow with Spring Cloud Streams
-* http://www.syscrest.com/2018/11/gdelt-on-scdf-implementing-a-custom-source-application-with-spring-cloud-streams/
+* http://www.syscrest.com/2018/11/gdelt-on-scdf-implementing-a-reactive-source-application-with-spring-cloud-streams/
 * source code (subfolder in this repository): [gdelt-article-feed-source](gdelt-article-feed-source)
 
 

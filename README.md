@@ -14,6 +14,12 @@ This repo contains code for the blog post series "GDELT on SCDF" on our develope
 * source code (subfolder in this repository): [gdelt-article-feed-source](gdelt-article-feed-source)
 
 
+### Implementing a filter application
+
+* http://www.syscrest.com/2018/12/implementing-a-filter-application-with-spring-cloud-stream/
+* source code (subfolder in this repository): [gdelt-article-simple-deduplication-filter](gdelt-article-simple-deduplication-filter)
+
+
 ### TBC
 
 New blog posts will be added as soon as they are have been published.

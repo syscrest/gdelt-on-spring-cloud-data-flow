@@ -6,7 +6,7 @@ This repo contains code for the blog post series "GDELT on Spring Cloud Data Flo
   * https://www.syscrest.com/2019/08/blog-post-series-processing-gdeltproject-dot-org-data-with-spring-cloud-data-flow-2-2-0-on-kubernetes/
 
 
-### Installation of Spring Cloud Data Flow 1.7.0.RELEASE on Kubernetes (using Kafka as the messaging subsystem)
+### Installation of Spring Cloud Data Flow 2.2.0.RELEASE on Kubernetes (using Kafka as the messaging subsystem)
   * https://www.syscrest.com/2019/08/bootstrapping-spring-cloud-data-flow-2-2-0-on-kubernetes-using-kubectl/
 
 

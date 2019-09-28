@@ -26,7 +26,7 @@ public class GDELTSourceProperties {
 	/**
 	 * The delay between pulling data from gdelt (in seconds).
 	 */
-	private long triggerDelay = 300L;
+	private long triggerDelay = 120l;
 
 	public long getTriggerDelay() {
 		return triggerDelay;

@@ -23,8 +23,10 @@ import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.cloud.stream.reactive.StreamEmitter;
 import org.springframework.context.annotation.Bean;
+import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.messaging.Message;
+import org.springframework.messaging.support.ErrorMessage;
 import org.springframework.messaging.support.GenericMessage;
 
 /**
@@ -55,6 +57,7 @@ public class GDELTSourceApplication {
 	public Publisher<Message<List<GDELTArticle>>> emit() {
 		return IntegrationFlows.from(() -> {
 			try {
+
 				URL feedUrl = new URL("https://api.gdeltproject.org/api/v2/doc/doc?query="
 						+ URLEncoder.encode(properties.getQuery(), "UTF-8")
 						+ "&mode=artlist&maxrecords=250&timespan=1h&sort=datedesc&format=json");
@@ -81,11 +84,16 @@ public class GDELTSourceApplication {
 					response.add(a);
 				}
 				return new GenericMessage<>(response);
-			} catch (Exception e) {
-				logger.error("", e);
+			} catch (Throwable e) {
+				logger.error("while querying gdelt endpoint", e);
 				return new GenericMessage<>(null);
 			}
 		}, e -> e.poller(p -> p.fixedDelay(this.properties.getTriggerDelay(), TimeUnit.SECONDS))).toReactivePublisher();
 	}
 
+	@ServiceActivator(inputChannel = "errorChannel")
+	public void onError(ErrorMessage message) {
+
+		logger.info("mesg = " + message);
+	}
 }

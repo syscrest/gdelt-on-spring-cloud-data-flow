@@ -126,7 +126,7 @@
 				<configuration>
 					<useOnlyProjectCache>true</useOnlyProjectCache>
 					<to>
-						<image>registry.hub.docker.com/syscrest/gdelt-article-simple-deduplication-filter-hoxton</image>
+						<image>registry.hub.docker.com/syscrest/gdelt-article-kafka-streams-deduplication-filter-hoxton</image>
 					</to>
 				</configuration>
 			</plugin>

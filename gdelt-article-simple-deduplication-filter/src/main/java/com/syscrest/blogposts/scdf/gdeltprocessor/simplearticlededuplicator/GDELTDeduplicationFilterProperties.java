@@ -8,9 +8,9 @@ import org.springframework.validation.annotation.Validated;
 public class GDELTDeduplicationFilterProperties {
 
 	/**
-	 * time in minutes to remember already seen article urls
+	 * time in minutes to remember already seen article urls.
 	 */
-	private long timeToLive = 24 * 60l;
+	private long timeToLive = 60l;
 
 	public long getTimeToLive() {
 		return timeToLive;

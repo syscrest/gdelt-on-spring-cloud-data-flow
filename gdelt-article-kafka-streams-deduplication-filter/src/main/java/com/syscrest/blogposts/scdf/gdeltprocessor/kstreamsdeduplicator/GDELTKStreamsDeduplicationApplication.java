@@ -46,7 +46,7 @@ public class GDELTKStreamsDeduplicationApplication {
 	public KStream<KeyValue<String, GDELTArticle>, GDELTArticle> process(KStream<Object, GDELTArticle> input) {
 
 		return input.groupBy((k, v) -> v.getUrl(), Grouped.with(Serdes.String(), CustomSerdes.GDELTArticleSerde()))
-				.windowedBy(SessionWindows.with(Duration.ofMinutes(configuration.getInactivityGap())))
+				.windowedBy(SessionWindows.with(Duration.ofSeconds(configuration.getInactivityGap())))
 				.reduce((a1, a2) -> a1).suppress(Suppressed.untilWindowCloses(Suppressed.BufferConfig.unbounded()))
 				.toStream((windowed, value) -> new KeyValue<String, GDELTArticle>(windowed.key(), value));
 	}

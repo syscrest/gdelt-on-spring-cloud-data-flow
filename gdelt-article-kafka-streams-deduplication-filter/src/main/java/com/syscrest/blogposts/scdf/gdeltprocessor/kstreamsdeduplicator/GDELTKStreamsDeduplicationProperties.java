@@ -8,11 +8,11 @@ import org.springframework.validation.annotation.Validated;
 public class GDELTKStreamsDeduplicationProperties {
 
 	/**
-	 * time in minutes before a seen url (without any further occurences) is
+	 * time in seconds before a seen url (without any further occurences) is
 	 * considered final and can be emitted. For the deduplication to work this
 	 * values must be greater than the poll interval of the source.
 	 */
-	private long inactivityGap = 10;
+	private long inactivityGap = 180;
 
 	public long getInactivityGap() {
 		return inactivityGap;

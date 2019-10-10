@@ -2,8 +2,9 @@ package com.syscrest.blogposts.scdf.gdeltprocessor.kstreamsdeduplicator;
 
 import java.time.Duration;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.kafka.common.serialization.Serdes;
-import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.kstream.Grouped;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.SessionWindows;
@@ -23,7 +24,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
  * https://kafka.apache.org/20/documentation/streams/developer-guide/dsl-api.html#session-windows
  * Session windows. It will use the url of the GDELTArticle as the key and the
  * GDELTArticle itself as the value. If the article has not been seen for X
- * minutes, it is no longer part of the query response of the sink and can be
+ * seconds, it is no longer part of the query response of the sink and can be
  * passed downstream. X must be greater than the poll intervall of the sink.
  * 
  * @author Thomas Memenga <t.memenga@syscrest.com>
@@ -34,6 +35,8 @@ import org.springframework.messaging.handler.annotation.SendTo;
 @SpringBootApplication
 public class GDELTKStreamsDeduplicationApplication {
 
+	private static final Log logger = LogFactory.getLog(GDELTKStreamsDeduplicationApplication.class);
+
 	public static void main(String[] args) {
 		SpringApplication.run(GDELTKStreamsDeduplicationApplication.class, args);
 	}
@@ -43,12 +46,21 @@ public class GDELTKStreamsDeduplicationApplication {
 
 	@StreamListener("input")
 	@SendTo("output")
-	public KStream<KeyValue<String, GDELTArticle>, GDELTArticle> process(KStream<Object, GDELTArticle> input) {
+	public KStream<String, GDELTArticle> process(KStream<Object, GDELTArticle> input) {
 
-		return input.groupBy((k, v) -> v.getUrl(), Grouped.with(Serdes.String(), CustomSerdes.GDELTArticleSerde()))
-				.windowedBy(SessionWindows.with(Duration.ofSeconds(configuration.getInactivityGap())))
-				.reduce((a1, a2) -> a1).suppress(Suppressed.untilWindowCloses(Suppressed.BufferConfig.unbounded()))
-				.toStream((windowed, value) -> new KeyValue<String, GDELTArticle>(windowed.key(), value));
+		return input
+				.groupBy((k, v) -> v.getUrl(), Grouped.with(Serdes.String(), CustomSerdes.GDELTArticleSerde()))
+				.windowedBy(
+						SessionWindows.with(
+								Duration.ofSeconds(configuration.getInactivityGap())).grace(Duration.ZERO)
+						)
+				.reduce((a1, a2) -> a1)
+				.suppress(Suppressed.untilWindowCloses(Suppressed.BufferConfig.unbounded()))
+				.toStream((windowed, value) -> windowed.key())
+				.peek((k, v) -> {
+					logger.info("emitting article = " + v);
+				});
+
 	}
 
 }

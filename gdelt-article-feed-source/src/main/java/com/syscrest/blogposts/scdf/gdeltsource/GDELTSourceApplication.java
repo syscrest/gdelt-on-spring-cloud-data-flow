@@ -68,7 +68,6 @@ public class GDELTSourceApplication {
 			try {
 
 				DateTime startDate = new DateTime().withZone(DateTimeZone.UTC).minusMinutes(31);
-
 				URL feedUrl = new URL("https://api.gdeltproject.org/api/v2/doc/doc?query="
 						+ URLEncoder.encode(properties.getQuery(), "UTF-8")
 						+ "&mode=artlist&maxrecords=250&startdatetime=" + START_DATETIME_FORMATTER.print(startDate)
@@ -82,24 +81,26 @@ public class GDELTSourceApplication {
 					responseStrBuilder.append(inputStr);
 				}
 				JSONObject jsonObject = new JSONObject(responseStrBuilder.toString());
-				JSONArray articles = jsonObject.getJSONArray("articles");
 				List<GDELTArticle> response = new ArrayList<>();
-				for (int i = 0; i < articles.length(); i++) {
-					JSONObject article = articles.getJSONObject(i);
-					GDELTArticle a = new GDELTArticle();
-					a.setUrl(article.getString("url"));
-					a.setTitle(article.getString("title"));
-					a.setDomain(article.getString("domain"));
-					a.setSourcecountry(article.getString("sourcecountry"));
-					a.setLanguage(article.getString("language"));
-					a.setSeendate(article.getString("seendate"));
-					response.add(a);
+				if (jsonObject.has("articles")) {
+					JSONArray articles = jsonObject.getJSONArray("articles");
+					for (int i = 0; i < articles.length(); i++) {
+						JSONObject article = articles.getJSONObject(i);
+						GDELTArticle a = new GDELTArticle();
+						a.setUrl(article.getString("url"));
+						a.setTitle(article.getString("title"));
+						a.setDomain(article.getString("domain"));
+						a.setSourcecountry(article.getString("sourcecountry"));
+						a.setLanguage(article.getString("language"));
+						a.setSeendate(article.getString("seendate"));
+						response.add(a);
+					}
 				}
 				logger.info("emitting list with " + response.size() + " articles");
 				return new GenericMessage<>(response);
 			} catch (Throwable e) {
 				logger.error("while querying gdelt endpoint", e);
-				return new GenericMessage<>(null);
+				return null;
 			}
 		}, e -> e.poller(p -> p.fixedDelay(this.properties.getTriggerDelay(), TimeUnit.SECONDS))).toReactivePublisher();
 	}
@@ -107,6 +108,6 @@ public class GDELTSourceApplication {
 	@ServiceActivator(inputChannel = "errorChannel")
 	public void onError(ErrorMessage message) {
 
-		logger.info("mesg = " + message);
+		logger.info("msg = " + message);
 	}
 }

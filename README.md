@@ -21,7 +21,7 @@ This repo contains code for the blog post series "GDELT on Spring Cloud Data Flo
 * source code (subfolder in this repository): [gdelt-article-simple-deduplication-filter](gdelt-article-simple-deduplication-filter)
 
 
-### 2020-03-06 GDELT on SCDF 2.4.0: Implementing a source as a function (supplier) with spring cloud stream function
+### 2020-03-30 GDELT on SCDF 2.4.0: Implementing a source as a function (supplier) with spring cloud stream function
 
 * https://www.syscrest.com/2020/03/gdelt-on-scdf-2-4-0-implementing-a-source-as-a-function-supplier-with-spring-cloud-function/
 * source code (subfolder in this repository): [gdelt-article-feed-functional-source](gdelt-article-feed-functional-source)

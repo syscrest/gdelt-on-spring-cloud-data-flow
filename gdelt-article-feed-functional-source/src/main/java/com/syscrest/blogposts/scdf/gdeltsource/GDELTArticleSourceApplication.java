@@ -34,7 +34,7 @@ public class GDELTArticleSourceApplication {
 		SpringApplication.run(GDELTArticleSourceApplication.class, args);
 	}
 
-	@PollableBean(splittable = false)
+	@PollableBean(splittable = true)
 	public Supplier<List<GDELTArticle>> pullArticles() {
 		return () -> {
 			try {
@@ -42,7 +42,7 @@ public class GDELTArticleSourceApplication {
 				UriComponentsBuilder builder = UriComponentsBuilder
 						.fromHttpUrl("https://api.gdeltproject.org/api/v2/doc/doc")
 						.queryParam("query", configuration.getQuery()).queryParam("mode", "artlist")
-						.queryParam("maxrecords", "2")
+						.queryParam("maxrecords", 10)
 						.queryParam("startdatetime",
 								START_DATETIME_FORMATTER
 										.print(new DateTime().withZone(DateTimeZone.UTC).minusMinutes(31)))

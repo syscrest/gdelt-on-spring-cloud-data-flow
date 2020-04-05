@@ -1,6 +1,6 @@
 # gdelt-article-feed-functional-source
 
-This repository contains the full source code for the blog post [GDELT on SCDF 2.4.0: Implementing a source as a function (supplier) with spring cloud stream function](https://www.syscrest.com/2020/03/gdelt-on-scdf-2-4-0-implementing-a-source-as-a-function-supplier-with-spring-cloud-function).
+This repository contains the full source code for the blog post [GDELT on SCDF 2.4.0: Implementing a source as a function (supplier) with spring cloud  function for spring cloud dataflow](https://www.syscrest.com/2020/03/gdelt-on-scdf-2-4-0-implementing-a-source-as-a-function-supplier-with-spring-cloud-function-for-spring-cloud-dataflow/).
 
 
 
